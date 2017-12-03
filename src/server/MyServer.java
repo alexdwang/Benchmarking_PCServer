@@ -62,7 +62,7 @@ public class MyServer {
 							// receive training data from mobile device
 							sendData(socketChannel, "receiving");
 							receiveFile(socketChannel, new File(projectHome + traindataFileName));
-						} else if(message.contains("|")||message.equals("nb")||message.equals("dt")||message.equals("lr")){
+						} else if(message.contains("nb")||message.contains("dt")||message.contains("lr")){
 							trainModels(message, socketChannel);
 						} else if(message.equals("model")){
 							// send model file to mobile device
@@ -115,10 +115,26 @@ public class MyServer {
 				long startTime=System.currentTimeMillis();
 				if (choices[i].equals("nb")){
 					mycls = new NaiveBayes(); // NB classifier
-				} else if (choices[i].equals("dt")){
-					mycls = new J48();
+				} else if (choices[i].contains("dt")){
+					J48 decisionT = new J48();
+					if (choices[i].contains(":")) {
+						String[] para = choices[i].split(":")[1].split(",");
+						float confidenceFactor = Float.parseFloat(para[0]);
+						if (confidenceFactor != 0) {
+							decisionT.setConfidenceFactor(confidenceFactor);
+						}
+						boolean binary_split = para[1].equals("true");
+						decisionT.setBinarySplits(binary_split);
+					}
+					mycls = decisionT;
 				} else /*if (choices[i].equals("lr"))*/{
-					mycls = new Logistic();
+					Logistic log = new Logistic();
+					if (choices[i].contains(":")) {
+						String[] para = choices[i].split(":");
+						double ridge = Double.parseDouble(para[1]);
+						log.setRidge(ridge);
+					}
+					mycls = log;
 				}
 				mycls.buildClassifier(TrainDes);
 				cls[i] = mycls;
