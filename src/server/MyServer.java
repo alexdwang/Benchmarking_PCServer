@@ -1,11 +1,9 @@
-package com.googlecode.garbagecan.test.socket.nio.server;
+package server;
 
-import java.io.BufferedWriter;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.InetSocketAddress;
@@ -20,20 +18,17 @@ import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.io.ObjectOutputStream;
-import java.io.BufferedReader;
-import java.io.FileReader;
 
 import weka.core.Instances;
 import weka.classifiers.bayes.NaiveBayes;
 import weka.classifiers.trees.J48;
 import weka.classifiers.functions.Logistic;
 import weka.classifiers.Classifier;
-import weka.classifiers.Evaluation;
 
 
 public class MyServer {
 	private final static Logger logger = Logger.getLogger(MyServer.class.getName());
-	private final static String projectHome = "F:/";
+	private final static String projectHome = "F:/Benchmarking_Server/";
 	private final static String traindataFileName = "traindata";
 	private final static String modelFileName = "model";
 	static Classifier[] cls;
